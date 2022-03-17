@@ -1,20 +1,26 @@
 :root {
-    --grid-cols: 1;
-    --grid-rows: 1;
-  }
-  
-  #player, #comp {
-    display: grid;
-    /* padding-bottom: 5%; */
-    grid-gap: 1em;
-    grid-template-rows: repeat(var(--grid-rows), 1fr);
-    grid-template-columns: repeat(var(--grid-cols), 1fr);
-  }
-  .body{
-      background-image: 'pics/background.webp'
-  }
-  .grid-item {
-    padding: 1em;
-    border: 1px solid #ddd;
-    text-align: center;
-  }
+  --grid-cols: 1;
+  --grid-rows: 1;
+}
+
+#player,
+#comp {
+  display: grid;
+  /* padding-bottom: 5%; */
+  grid-gap: 0em;
+
+  grid-template-rows: repeat(var(--grid-rows), 1fr);
+  grid-template-columns: repeat(var(--grid-cols), 1fr);
+}
+
+.grid-item {
+  padding: 1em;
+  border: 1px solid #000000;
+  text-align: center;
+  background-image: url("../pics/ocean.jpeg");
+}
+
+button {
+  color: red;
+  font-weight: bold;
+}

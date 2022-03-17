@@ -57,4 +57,4 @@ class ship {
  
 
 const shipper = new ship("2row", 0, 0, 0, 1)
-console.log(shipper.isDown())
+//console.log(shipper.isDown())
