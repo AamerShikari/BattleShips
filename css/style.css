@@ -17,8 +17,20 @@
   padding: 1em;
   border: 1px solid #000000;
   text-align: center;
-  background-image: url("../pics/ocean.jpeg");
+  background-image: url("../pics/ocean.jpeg"); 
+
 }
+
+#hit:after{
+  content: "\274c"; /* Big X */
+  color: rgb(255, 0, 0);
+}
+
+#miss:after {
+  content: "\2B55"; /* Big Circle*/
+  color: rgb(255, 0, 0);
+}
+
 
 button {
   color: red;
