@@ -33,11 +33,40 @@ phraseCount = 0
 boatCount = 0
 phrase.innerText = setOfPhrases[0] + setOfBoats[0]
 document.querySelector("#playerBoard").after(phrase)
+let enemyTalks = document.createElement("h2")
+document.querySelector("#computerBoard").after(enemyTalks)
 let x;
 let y;
 let boatType = [1, 2, 2, 3, 4]
 let playerShips;
+let playerBoardInitialized = false;
 
+class ship {
+    constructor(shipType, x1, y1, x2, y2){
+        this.shipType = shipType;
+        this.indexArr = [];
+        for (let i = x1; i <= x2; i++){
+            for (let j = y1; j <= y2; j++){
+                this.indexArr.push({x: i, y: j, isHit: false});
+            }
+        }
+    }
+
+    //function to determine if the ship has been hit at each index 
+    isDown () {
+        let counter = 0;
+        this.indexArr.forEach((elem) => {
+            if (elem.isHit){
+                counter++;
+            }
+        });
+        if (counter === this.indexArr.length) {
+            return true
+        } else {
+            return false
+        }
+    }
+}
 playerDiv.addEventListener('click', function(e) {
     
     if (boatCount === 5) {
@@ -49,8 +78,8 @@ playerDiv.addEventListener('click', function(e) {
     } else if (phraseCount === 1){
         y = e.target.innerText
         if (boatIsValid(x, y, playerBoats, boatType[boatCount])){
+            placeBoat(playerGrid, playerBoats[playerBoats.length - 1], boatType[boatCount], boatCount !== 2, convertToVal([playerBoats[boatCount][0], playerBoats[boatCount][2]]))
             boatCount++;
-            placeBoat(playerBoats[playerBoats.length - 1], boatType[boatCount], boatCount === 2)
             if (boatCount === 5){
                 phraseCount = 2
             } else {
@@ -60,30 +89,34 @@ playerDiv.addEventListener('click', function(e) {
             phraseCount = 3;
         }
     }
-    // console.log(boatCount)
     if (boatCount === 5) {
         phrase.innerText = setOfPhrases[phraseCount]
         playerShips = createBoatArr(playerBoats)
-        console.log(playerShips)
-        console.log(playerBoats)
+        playerBoardInitialized = true
     } else {
         phrase.innerText = setOfPhrases[phraseCount] + setOfBoats[boatCount]
     }
     
 })
 
-let twoBoatHor = ["url(../pics/Two/Hor/TwoLeft.png", "url(../pics/Two/Hor/TwoRight.png"];
-let twoBoatVert = ["url(../pics/Two/Vert/TwoLeft.png", "url(../pics/Two/Vert/TwoRight.png"]
-let threeSlickHor = ["url(../pics/ThreeSlick/Hor/ThreeSlickLeft.png", "url(../pics/ThreeSlick/Hor/ThreeSlickMiddle.png", "url(../pics/ThreeSlick/Hor/ThreeSlickRight.png"]
-let threeSlickVert = ["url(../pics/ThreeSlick/Vert/ThreeSlickLeft.png", "url(../pics/ThreeSlick/Vert/ThreeSlickMiddle.png", "url(../pics/ThreeSlick/Vert/ThreeSlickRight.png"]
-let threeWideHor = ["url(../pics/ThreeWide/Hor/ThreeWideLeft.png", "url(../pics/ThreeWide/Hor/ThreeWideMiddle.png", "url(../pics/ThreeWide/Hor/ThreeWideRight.png"]
-let threeWideVert = ["url(../pics/ThreeWide/Vert/ThreeWideLeft.png", "url(../pics/ThreeWide/Vert/ThreeWideMiddle.png", "url(../pics/ThreeWide/Vert/ThreeWideRight.png"]
-let fourHor = ["url(../pics/Four/Hor/FourLeft.png", "url(../pics/Four/Hor/FourMidLeft.png", "url(../pics/Four/Hor/FourMidRight.png", "url(../pics/Four/Hor/FourRight.png"]
-let fourVert = ["url(../pics/Four/Vert/FourLeft.png", "url(../pics/Four/Vert/FourMidLeft.png", "url(../pics/Four/Vert/FourMidRight.png", "url(../pics/Four/Vert/FourRight.png"]
-let fiveHor = ["url(../pics/Five/Hor/FiveLeft.png", "url(../pics/Five/Hor/FiveMidLeft.png", "url(../pics/Five/Hor/FiveMid.png", "url(../pics/Five/Hor/FiveMidRight.png", "url(../pics/Five/Hor/FiveRight.png"]
-let fiveVert = ["url(../pics/Five/Vert/FiveLeft.png", "url(../pics/Five/Vert/FiveMidLeft.png", "url(../pics/Five/Vert/FiveMid.png", "url(../pics/Five/Vert/FiveMidRight.png", "url(../pics/Five/Vert/FiveRight.png"]
+let twoBoatHor = ["url('pics/Two/Hor/TwoLeft.png')", "url('pics/Two/Hor/TwoRight.png')"];
+let twoBoatVert = ["url('pics/Two/Vert/TwoLeft.png')", "url('pics/Two/Vert/TwoRight.png')"]
+let threeSlickHor = ["url('pics/ThreeSlick/Hor/ThreeSlickLeft.png')", "url('pics/ThreeSlick/Hor/ThreeSlickMiddle.png')", "url('pics/ThreeSlick/Hor/ThreeSlickRight.png')"]
+let threeSlickVert = ["url('pics/ThreeSlick/Vert/ThreeSlickLeft.png')", "url('pics/ThreeSlick/Vert/ThreeSlickMiddle.png')", "url('pics/ThreeSlick/Vert/ThreeSlickRight.png')"]
+let threeWideHor = ["url('pics/ThreeWide/Hor/ThreeWideLeft.png')", "url('pics/ThreeWide/Hor/ThreeWideMiddle.png')", "url('pics/ThreeWide/Hor/ThreeWideRight.png')"]
+let threeWideVert = ["url('pics/ThreeWide/Vert/ThreeWideLeft.png')", "url('pics/ThreeWide/Vert/ThreeWideMiddle.png')", "url('pics/ThreeWide/Vert/ThreeWideRight.png')"]
+let fourHor = ["url('pics/Four/Hor/FourLeft.png')", "url('pics/Four/Hor/FourMidLeft.png')", "url('pics/Four/Hor/FourMidRight.png')", "url('pics/Four/Hor/FourRight.png')"]
+let fourVert = ["url('pics/Four/Vert/FourLeft.png')", "url('pics/Four/Vert/FourMidLeft.png')", "url('pics/Four/Vert/FourMidRight.png')", "url('pics/Four/Vert/FourRight.png')"]
+let fiveHor = ["url('pics/Five/Hor/FiveLeft.png')", "url('pics/Five/Hor/FiveMidLeft.png')", "url('pics/Five/Hor/FiveMid.png')", "url('pics/Five/Hor/FiveMidRight.png')", "url('pics/Five/Hor/FiveRight.png')"]
+let fiveVert = ["url('pics/Five/Vert/FiveLeft.png')", "url('pics/Five/Vert/FiveMidLeft.png')", "url('pics/Five/Vert/FiveMid.png')", "url('pics/Five/Vert/FiveMidRight.png')", "url('pics/Five/Vert/FiveRight.png')"]
 let imgArr = [twoBoatHor, twoBoatVert, threeSlickHor, threeSlickVert, threeWideHor, threeWideVert, fourHor, fourVert, fiveHor, fiveVert]
-function placeBoat(boat, type, isSecond) {
+
+function convertToVal (pos) {
+    let x = pos[0]
+    let y = pos[1]
+    return y + (x * 7) + 1
+}
+function placeBoat(grid, boat, type, isSecond, targetVal) {
     let index;
     if (type === 1) {
         if (boat[4]){
@@ -98,10 +131,12 @@ function placeBoat(boat, type, isSecond) {
             } else {
                 index = 3
             }
-        } if (boat[4]){
-            index = 4
         } else {
-            index = 5
+            if (boat[4]){
+                index = 4
+            } else {
+                index = 5
+            }
         }
     } else if (type === 3){
         if (boat[4]){
@@ -117,16 +152,44 @@ function placeBoat(boat, type, isSecond) {
         }
     }
     let temp = imgArr[index]
+    let j;
+    let diff;
+    if (boat[1] - boat[0] === 0){
+        j = 1
+        diff = 1
+    } else {
+        j = 1
+        diff = 7
+    }
     temp.forEach((elem) => {
-        
+        grid[targetVal - j].style.background = elem
+        grid[targetVal - j].style.backgroundSize = "100%"
+        grid[targetVal - j].style.backgroundRepeat = "no-repeat"
+        j -= diff
     })
-    
 }
+//[x1,x2,y1,y2, hor]
 
 function boatIsValid (x, y, boatArr, len) {
     let arrOfPos = []
     let pos1 = convertToPos(x)
     let pos2 = convertToPos(y)
+    let temp;
+    if (pos1[0] - pos2[0] > 0 || pos1[1] - pos2[1] > 0) {
+        temp = pos1
+        pos1 = pos2
+        pos2 = temp
+    }
+    // if (pos1[0] - pos2[0] < 0) {
+    //     temp = pos1[0]
+    //     pos1[0] = pos2[0]
+    //     pos2[0] = temp
+    // }
+    //  else if(pos1[1] - pos2[1] < 0){
+    //     temp = pos1[1]
+    //     pos1[1] = pos2[1]
+    //     pos2[1] = temp
+    // }
     if (boatArr.length === 0 && (y-x === 1 || y-x === 7)){
         boatArr.push([pos1[0], pos2[0], pos1[1], pos2[1], pos1[0]-pos2[0] === 0])
         return true;
@@ -139,34 +202,142 @@ function boatIsValid (x, y, boatArr, len) {
         } else if ((pos1[0] - pos2[0] === 0 && Math.abs(pos1[1] - pos2[1]) !== len) || (Math.abs(pos1[0] - pos2[0]) !== len && pos1[1] - pos2[1] === 0)) {
             return false
         } else {
-            if (pos1[0] - pos2[0] > 0 || pos1[1] - pos2[1] > 0){
-                let temp = pos1;
-                pos1 = pos2;
-                pos2 = temp;
-            }
-            // console.log(boatArr)
-            // console.log(`(${pos1[0]}, ${pos1[1]}) (${pos2[0]}, ${pos2[1]}) `)
             return isntTaken(boatArr, pos1[0], pos2[0], pos1[1], pos2[1], pos1[0]-pos2[0] === 0)
         }
     }
 }
 
 compDiv.addEventListener('click', function(e) {
-    computerGrid.forEach((elem) => {        
-        if (elem.innerText === e.target.innerText) {
-            if (isAHit(e.target.innerText)){
+    let target
+    if (isGameOver(boatArry)) {
+
+    } else if (isGameOver(playerShips)){
+
+    } else {
+        if (playerBoardInitialized){
+            computerGrid.forEach((elem) => {        
+                if (elem.innerText === e.target.innerText) {
+                    target = convertToPos(e.target.innerText)
+                    if (isAHit(e.target.innerText, boatArry, true)){
+                        elem.id = 'hit'
+                        phrase.innerText = `Nice! (${target[0] + 1}, ${target[1] + 1}) was a hit!`
+                    } else {
+                        elem.id = 'miss'
+                        phrase.innerText = `Oh no! (${target[0] + 1}, ${target[1] + 1}) was a miss! We'll get em next time!`
+                    }
+                }
+            })
+            if (isGameOver(boatArry)){
+                phrase.innerText = "GAME OVER, YOU WON!"
+                enemyTalks = "I'LL HAVE MY VENGANCE ONE DAY..."
+            } else {
+                runComputerTurn()
+                if (isGameOver(playerShips)){
+                    phrase.innerText = "GAME OVER, ENEMY WON"
+                    enemyTalks = "YOU THOUGHT YOU COULD DEFEAT ME?!?! MUAHAHAH!"
+                }
+            } 
+        } else {
+            phrase.innerText = "You haven't finished your board yet! " + phrase.innerText
+        }
+    }
+})
+
+let hitArr = []
+let recentHit = false
+
+function isGameOver(ships) {
+    for (let i = 0; i < ships.length; i++){
+        if(!ships[i].isDown()){
+            return false;
+        }
+    }
+    return true;
+}
+
+let hunted;
+function runComputerTurn() {
+    let inArry = true
+    let randIndex;
+    if (recentHit){
+        for (let i = 0; i < hunted.indexArr.length; i++){
+            if (!hunted.indexArr[i].isHit){
+                randIndex = convertToVal([hunted.indexArr[i].x, hunted.indexArr[i].y]);
+            }
+        }
+    } else {
+        while (inArry){
+            randIndex = Math.floor(Math.random() * 49) + 1;
+            if (!hitArr.includes(randIndex)){
+                inArry = false;
+            }
+        } 
+    }
+    playerGrid.forEach((elem) => {   
+        if (elem.innerText == randIndex) {
+            target = convertToPos(randIndex)
+            if (isAHit(randIndex, playerShips, false)){
                 elem.id = 'hit'
+                hitArr.push(randIndex)
+                enemyTalks.innerText = `Nice! (${target[0] + 1}, ${target[1] + 1}) was a hit!`
+                if (recentHit){
+                    if (hunted.isDown()){
+                        recentHit = false;
+                    }
+                } else {
+                    hunted = shipAt(randIndex);
+                    recentHit = true;
+                    console.log(hunted)
+                }
             } else {
                 elem.id = 'miss'
+                hitArr.push(randIndex)
+                enemyTalks.innerText = `Oh no! (${target[0] + 1}, ${target[1] + 1}) was a miss! We'll get em next time!`
             }
         }
     })
+}
 
-})
+function shipAt (num) {
+    for (let i = 0; i < playerShips.length; i++) {
+        for(let j = 0; j < playerShips[i].indexArr.length; j++) {
+            let pos = convertToPos(num)
+            if (playerShips[i].indexArr[j].x === pos[0] && playerShips[i].indexArr[j].y === pos[1]){
+                return playerShips[i]
+            }
+        }
+    }
+}
 
-//PROBLEM - > Need to accommodate to rotating ship divs
+function isAHit(num, boats, isComp) {
+    let location = convertToPos(num)
+    for (let i = 0; i < boats.length; i++) {
+        for (let j = 0; j < boats[i].indexArr.length; j++){
+            if (boats[i].indexArr[j].x === location[0] && boats[i].indexArr[j].y === location[1]){
+                boats[i].indexArr[j].isHit = true;
+                if(boats[i].isDown() && isComp){
+                    displayDownedBoat(boats[i])
+                }
+                return true
+            }
+        }
+    }
+    return false
+}
+/*
+To Do List: 
+- Computer AI 
+- End Screen 
+- Restart 
+Animating the water 
+Exploding effect 
+Water splash when miss 
+fit in with water better 
+
+*/
 
 let playerGrid = makeRows(playerDiv, 7, 7);
+
 /*
 //Two
 playerGrid[0].style.background = "url('pics/Two/TwoLeft.png')";
@@ -247,13 +418,11 @@ function loadCPUBoard () {
                 }
                 xEndPos = xStartPos
             }
-            //console.log(`(${xStartPos}, ${yStartPos}), (${xEndPos} , ${yEndPos}) ${isHorizontal}`)
             if (isntTaken(boatPositions, xStartPos, xEndPos, yStartPos, yEndPos, isHorizontal)){
                 hasPlace = true;
             }
         }
     }
-    //console.log(boatPositions)
 }
 
 function isntTaken (pos, x1, x2, y1, y2, hor){
@@ -264,11 +433,11 @@ function isntTaken (pos, x1, x2, y1, y2, hor){
     }
     for (let i = 0; i < pos.length; i++) {
         if (hor) {
-            if ((pos[i][1] < x1) || (x2 < pos[i][0]) || (pos[i][2] < y1 || pos[i][2] > y2)){
+            if ((pos[i][1] < x1) || (x2 < pos[i][0]) || (pos[i][3] < y1 || pos[i][2] > y2)){
                 counter++  
             }
         } else {
-            if ((pos[i][3] < y1) || (pos[i][2] > y2 ) || (pos[i][1] < x1 || pos[i][1] > x2)){
+            if ((pos[i][3] < y1) || (pos[i][2] > y2 ) || (pos[i][1] < x1 || pos[i][0] > x2)){
                 counter++
             }
         }
@@ -281,38 +450,14 @@ function isntTaken (pos, x1, x2, y1, y2, hor){
 }
 loadCPUBoard()
 
-class ship {
-    constructor(shipType, x1, y1, x2, y2){
-        this.shipType = shipType;
-        this.indexArr = [];
-        for (let i = x1; i <= x2; i++){
-            for (let j = y1; j <= y2; j++){
-                this.indexArr.push({x: i, y: j, isHit: false});
-            }
-        }
-    }
 
-    //function to determine if the ship has been hit at each index 
-    isDown () {
-        let counter = 0;
-        this.indexArr.forEach((elem) => {
-            if (elem.isHit){
-                counter++;
-            }
-        });
-        if (counter === this.indexArr.length) {
-            return true
-        } else {
-            return false
-        }
-    }
-}
+
  
 
-const shipper = new ship("2row", 0, 0, 0, 1)
-//console.log(shipper.isDown())
+
 
 boatArry = createBoatArr(boatPositions)
+
 function createBoatArr(poses) {
     let arr = [];
     let counter = 0
@@ -322,43 +467,13 @@ function createBoatArr(poses) {
     })
     return arr;
 }
-// console.log(boatArry)
 
-function isAHit(num) {
-    let location = convertToPos(num)
-    console.log(location)
-    for (let i = 0; i < boatArry.length; i++) {
-        for (let j = 0; j < boatArry[i].indexArr.length; j++){
-            if (boatArry[i].indexArr[j].x === location[0] && boatArry[i].indexArr[j].y === location[1]){
-                boatArry[i].indexArr[j].isHit = true;
-                //INSERT DISPLAY ISDOWN BOAT HERE
-                return true
-            }
-        }
-    }
-    return false
+
+
+function displayDownedBoat(boat) {
+    placeBoat(computerGrid, [boat.indexArr[0].x, boat.indexArr[boat.indexArr.length - 1].x, boat.indexArr[0].y, boat.indexArr[boat.indexArr.length-1].y, boat.indexArr[boat.indexArr.length - 1].x - boat.indexArr[0].x === 0], boat.shipType - 1, false, convertToVal([boat.indexArr[0].x, boat.indexArr[0].y]))
 }
-
 
 function convertToPos(index) {
     return [Math.floor((index-1)/7), (index-1) % 7]
 }
-// console.log(convertToPos(14))
-
-//Setup Players Board
-// let playerBoatArr = []
-// let temp = 'kay'
-
-// function runSetup () {
-//     boatType.forEach(elem => {
-//         let prompt = document.createElement('p')
-        
-//         prompt = `Hello! Please select the start index! ${temp}`
-//         document.querySelector('h1').after(prompt)
-//         playerDiv.addEventListener('click', (e) => {
-//             console.log(e.target)
-//             temp = e.target.innerText
-//         })
-//     })
-// }
-// runSetup();
