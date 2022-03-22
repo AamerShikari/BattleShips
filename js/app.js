@@ -1,3 +1,16 @@
+let startButton = document.querySelector("#startGame")
+startButton.addEventListener('click', function(e) {
+    document.querySelector("#difficultySelection").style.display = "flex"
+    document.querySelector("#startScreen").style.display = "none"
+})
+let difficulties = document.querySelector("ul")
+let compLevel;
+difficulties.addEventListener('click', (e) => {
+    compLevel = e.target.innerText
+    document.querySelector("#difficultySelection").style.display = "none"
+    document.querySelector("#gamePlay").style.display = "grid"
+})
+
 const playerDiv = document.getElementById("player");
 const compDiv = document.getElementById("comp");
 
@@ -16,6 +29,9 @@ function makeRows(container, rows, cols) {
   return arr
 };
 
+let playerGrid = makeRows(playerDiv, 7, 7);
+let computerGrid = makeRows(compDiv, 7, 7);
+
 //Event Listener Functions 
 /*
 Responsibilities: 
@@ -25,12 +41,27 @@ Responsibilities:
 - Must run an isGameOver function at the end of every round 
 - 
 */
+
 let phrase = document.createElement('h2');
-setOfPhrases = ["Select the start index of your ", "Select the end index of your ", "Your all set! Let the battle begin!", "Note: Boat length must match the description, no overlapping, and no diagonals allowed! Try again by entering a start index for a "]
-setOfBoats = ["2-length boat", "3-length boat", "2nd 3-length boat", "4-length boat", "5-length boat"];
-playerBoats = []
-phraseCount = 0
-boatCount = 0
+let setOfPhrases = ["Select the start index of your ", "Select the end index of your ", "Your all set! Let the battle begin!", "Note: Boat length must match the description, no overlapping, and no diagonals allowed! Try again by entering a start index for a "]
+let setOfBoats = ["2-length boat", "3-length boat", "2nd 3-length boat", "4-length boat", "5-length boat"];
+let twoBoatHor = ["url('pics/Two/Hor/TwoLeft.png')", "url('pics/Two/Hor/TwoRight.png')"];
+let twoBoatVert = ["url('pics/Two/Vert/TwoLeft.png')", "url('pics/Two/Vert/TwoRight.png')"]
+let threeSlickHor = ["url('pics/ThreeSlick/Hor/ThreeSlickLeft.png')", "url('pics/ThreeSlick/Hor/ThreeSlickMiddle.png')", "url('pics/ThreeSlick/Hor/ThreeSlickRight.png')"]
+let threeSlickVert = ["url('pics/ThreeSlick/Vert/ThreeSlickLeft.png')", "url('pics/ThreeSlick/Vert/ThreeSlickMiddle.png')", "url('pics/ThreeSlick/Vert/ThreeSlickRight.png')"]
+let threeWideHor = ["url('pics/ThreeWide/Hor/ThreeWideLeft.png')", "url('pics/ThreeWide/Hor/ThreeWideMiddle.png')", "url('pics/ThreeWide/Hor/ThreeWideRight.png')"]
+let threeWideVert = ["url('pics/ThreeWide/Vert/ThreeWideLeft.png')", "url('pics/ThreeWide/Vert/ThreeWideMiddle.png')", "url('pics/ThreeWide/Vert/ThreeWideRight.png')"]
+let fourHor = ["url('pics/Four/Hor/FourLeft.png')", "url('pics/Four/Hor/FourMidLeft.png')", "url('pics/Four/Hor/FourMidRight.png')", "url('pics/Four/Hor/FourRight.png')"]
+let fourVert = ["url('pics/Four/Vert/FourLeft.png')", "url('pics/Four/Vert/FourMidLeft.png')", "url('pics/Four/Vert/FourMidRight.png')", "url('pics/Four/Vert/FourRight.png')"]
+let fiveHor = ["url('pics/Five/Hor/FiveLeft.png')", "url('pics/Five/Hor/FiveMidLeft.png')", "url('pics/Five/Hor/FiveMid.png')", "url('pics/Five/Hor/FiveMidRight.png')", "url('pics/Five/Hor/FiveRight.png')"]
+let fiveVert = ["url('pics/Five/Vert/FiveLeft.png')", "url('pics/Five/Vert/FiveMidLeft.png')", "url('pics/Five/Vert/FiveMid.png')", "url('pics/Five/Vert/FiveMidRight.png')", "url('pics/Five/Vert/FiveRight.png')"]
+let imgArr = [twoBoatHor, twoBoatVert, threeSlickHor, threeSlickVert, threeWideHor, threeWideVert, fourHor, fourVert, fiveHor, fiveVert]
+let hitArr = []
+let recentHit = false
+let playerBoats = []
+let boatPositions = [];
+let phraseCount = 0
+let boatCount = 0
 phrase.innerText = setOfPhrases[0] + setOfBoats[0]
 document.querySelector("#playerBoard").after(phrase)
 let enemyTalks = document.createElement("h2")
@@ -40,6 +71,9 @@ let y;
 let boatType = [1, 2, 2, 3, 4]
 let playerShips;
 let playerBoardInitialized = false;
+let hunted;
+
+let seersEye = false;
 
 class ship {
     constructor(shipType, x1, y1, x2, y2){
@@ -99,18 +133,6 @@ playerDiv.addEventListener('click', function(e) {
     
 })
 
-let twoBoatHor = ["url('pics/Two/Hor/TwoLeft.png')", "url('pics/Two/Hor/TwoRight.png')"];
-let twoBoatVert = ["url('pics/Two/Vert/TwoLeft.png')", "url('pics/Two/Vert/TwoRight.png')"]
-let threeSlickHor = ["url('pics/ThreeSlick/Hor/ThreeSlickLeft.png')", "url('pics/ThreeSlick/Hor/ThreeSlickMiddle.png')", "url('pics/ThreeSlick/Hor/ThreeSlickRight.png')"]
-let threeSlickVert = ["url('pics/ThreeSlick/Vert/ThreeSlickLeft.png')", "url('pics/ThreeSlick/Vert/ThreeSlickMiddle.png')", "url('pics/ThreeSlick/Vert/ThreeSlickRight.png')"]
-let threeWideHor = ["url('pics/ThreeWide/Hor/ThreeWideLeft.png')", "url('pics/ThreeWide/Hor/ThreeWideMiddle.png')", "url('pics/ThreeWide/Hor/ThreeWideRight.png')"]
-let threeWideVert = ["url('pics/ThreeWide/Vert/ThreeWideLeft.png')", "url('pics/ThreeWide/Vert/ThreeWideMiddle.png')", "url('pics/ThreeWide/Vert/ThreeWideRight.png')"]
-let fourHor = ["url('pics/Four/Hor/FourLeft.png')", "url('pics/Four/Hor/FourMidLeft.png')", "url('pics/Four/Hor/FourMidRight.png')", "url('pics/Four/Hor/FourRight.png')"]
-let fourVert = ["url('pics/Four/Vert/FourLeft.png')", "url('pics/Four/Vert/FourMidLeft.png')", "url('pics/Four/Vert/FourMidRight.png')", "url('pics/Four/Vert/FourRight.png')"]
-let fiveHor = ["url('pics/Five/Hor/FiveLeft.png')", "url('pics/Five/Hor/FiveMidLeft.png')", "url('pics/Five/Hor/FiveMid.png')", "url('pics/Five/Hor/FiveMidRight.png')", "url('pics/Five/Hor/FiveRight.png')"]
-let fiveVert = ["url('pics/Five/Vert/FiveLeft.png')", "url('pics/Five/Vert/FiveMidLeft.png')", "url('pics/Five/Vert/FiveMid.png')", "url('pics/Five/Vert/FiveMidRight.png')", "url('pics/Five/Vert/FiveRight.png')"]
-let imgArr = [twoBoatHor, twoBoatVert, threeSlickHor, threeSlickVert, threeWideHor, threeWideVert, fourHor, fourVert, fiveHor, fiveVert]
-
 function convertToVal (pos) {
     let x = pos[0]
     let y = pos[1]
@@ -168,7 +190,6 @@ function placeBoat(grid, boat, type, isSecond, targetVal) {
         j -= diff
     })
 }
-//[x1,x2,y1,y2, hor]
 
 function boatIsValid (x, y, boatArr, len) {
     let arrOfPos = []
@@ -180,16 +201,6 @@ function boatIsValid (x, y, boatArr, len) {
         pos1 = pos2
         pos2 = temp
     }
-    // if (pos1[0] - pos2[0] < 0) {
-    //     temp = pos1[0]
-    //     pos1[0] = pos2[0]
-    //     pos2[0] = temp
-    // }
-    //  else if(pos1[1] - pos2[1] < 0){
-    //     temp = pos1[1]
-    //     pos1[1] = pos2[1]
-    //     pos2[1] = temp
-    // }
     if (boatArr.length === 0 && (y-x === 1 || y-x === 7)){
         boatArr.push([pos1[0], pos2[0], pos1[1], pos2[1], pos1[0]-pos2[0] === 0])
         return true;
@@ -208,11 +219,9 @@ function boatIsValid (x, y, boatArr, len) {
 }
 
 compDiv.addEventListener('click', function(e) {
-    let target
+    let target;
     if (isGameOver(boatArry)) {
-
     } else if (isGameOver(playerShips)){
-
     } else {
         if (playerBoardInitialized){
             computerGrid.forEach((elem) => {        
@@ -243,8 +252,7 @@ compDiv.addEventListener('click', function(e) {
     }
 })
 
-let hitArr = []
-let recentHit = false
+
 
 function isGameOver(ships) {
     for (let i = 0; i < ships.length; i++){
@@ -255,49 +263,128 @@ function isGameOver(ships) {
     return true;
 }
 
-let hunted;
+
 function runComputerTurn() {
     let inArry = true
     let randIndex;
-    if (recentHit){
-        for (let i = 0; i < hunted.indexArr.length; i++){
-            if (!hunted.indexArr[i].isHit){
-                randIndex = convertToVal([hunted.indexArr[i].x, hunted.indexArr[i].y]);
-            }
-        }
-    } else {
+    if (compLevel === "Infant Splamming Keyboard"){
+        //Repitition to be made more efficient
         while (inArry){
             randIndex = Math.floor(Math.random() * 49) + 1;
-            if (!hitArr.includes(randIndex)){
+            if(!hitArr.includes(randIndex)){
                 inArry = false;
             }
-        } 
-    }
-    playerGrid.forEach((elem) => {   
-        if (elem.innerText == randIndex) {
-            target = convertToPos(randIndex)
-            if (isAHit(randIndex, playerShips, false)){
-                elem.id = 'hit'
-                hitArr.push(randIndex)
-                enemyTalks.innerText = `Nice! (${target[0] + 1}, ${target[1] + 1}) was a hit!`
-                if (recentHit){
-                    if (hunted.isDown()){
-                        recentHit = false;
+        }
+        playerGrid.forEach((elem) => {
+            if (elem.innerText == randIndex) {
+                target = convertToPos(randIndex)
+                if (isAHit(randIndex, playerShips, false)){
+                    elem.id = 'hit'
+                    hitArr.push(randIndex)
+                    enemyTalks.innerText = `Gooogoo GAHAHAHA *infant hits (${target[0] + 1}, ${target[1] + 1})*`
+                } else {
+                    elem.id = 'miss'
+                    hitArr.push(randIndex)
+                    enemyTalks.innerText = `wah WAHHHH *infant's (${target[0] + 1}, ${target[1] + 1}) was a miss!*`
+                }
+            }
+        })
+    } else if (compLevel === "Kevin the Semi Calculated Sniper"){
+        if (recentHit){
+            for (let i = 0; i < hunted.indexArr.length; i++){
+                if (!hunted.indexArr[i].isHit){
+                    randIndex = convertToVal([hunted.indexArr[i].x, hunted.indexArr[i].y]);
+                }
+            }
+        } else {
+            while (inArry){
+                randIndex = Math.floor(Math.random() * 49) + 1;
+                if (!hitArr.includes(randIndex)){
+                    inArry = false;
+                }
+            } 
+        }
+        playerGrid.forEach((elem) => {   
+            if (elem.innerText == randIndex) {
+                target = convertToPos(randIndex)
+                if (isAHit(randIndex, playerShips, false)){
+                    elem.id = 'hit'
+                    hitArr.push(randIndex)
+                    enemyTalks.innerText = `Nice! (${target[0] + 1}, ${target[1] + 1}) was a hit!`
+                    if (recentHit){
+                        if (hunted.isDown()){
+                            recentHit = false;
+                        }
+                    } else {
+                        hunted = shipAt(randIndex);
+                        recentHit = true;
+                        console.log(hunted)
                     }
                 } else {
-                    hunted = shipAt(randIndex);
-                    recentHit = true;
-                    console.log(hunted)
+                    elem.id = 'miss'
+                    hitArr.push(randIndex)
+                    enemyTalks.innerText = `Oh no! (${target[0] + 1}, ${target[1] + 1}) was a miss! We'll get em next time!`
                 }
-            } else {
-                elem.id = 'miss'
-                hitArr.push(randIndex)
-                enemyTalks.innerText = `Oh no! (${target[0] + 1}, ${target[1] + 1}) was a miss! We'll get em next time!`
+            }
+        })
+    } else if (compLevel === "The Binary Bot"){
+
+    } else if (compLevel === "The Seer (Almost Impossible)") {
+        if (!seersEye){
+            while (inArry){
+                randIndex = Math.floor(Math.random() * 49) + 1;
+                if(!hitArr.includes(randIndex)){
+                    inArry = false;
+                }
+            }
+        } else {
+            for (let i = 0; i < hunted.indexArr.length; i++){
+                if (!hunted.indexArr[i].isHit){
+                    randIndex = convertToVal([hunted.indexArr[i].x, hunted.indexArr[i].y]);
+                }
             }
         }
-    })
-}
 
+        playerGrid.forEach((elem) => {
+            if (elem.innerText == randIndex) {
+                target = convertToPos(randIndex)
+                if (isAHit(randIndex, playerShips, false)){
+                    elem.id = 'hit'
+                    hitArr.push(randIndex)
+                        
+                    if (seersEye) {
+                        enemyTalks.innerText = `My Eye has never failed me! *hits (${target[0] + 1}, ${target[1] + 1})*`
+                        if (hunted.isDown()){
+                            seersEye = false;
+                        }
+                    } else {
+                        seersEye = Math.floor(Math.random() * 2) === 0
+                        if (seersEye) {
+                            enemyTalks.innerText = "A lucky guess into a divination! You doom is assured!"
+                        } else {
+                            enemyTalks.innerText = "A lucky guess, my divination will surely be your demise!"
+                        }
+                    }
+                } else {
+                    elem.id = 'miss'
+                    hitArr.push(randIndex)
+                    seersEye = Math.floor(Math.random() * 2) === 0
+                    if (seersEye) {
+                        enemyTalks.innerText = `The Seers Eye has provided divine wisdom! One of your ships is now doomed!`
+                        for (let i = 0; i < playerShips.length; i++){
+                            if (!playerShips[i].isDown()){
+                                hunted = playerShips[i]
+                                break;
+                            }
+                        }
+                    } else {
+                        enemyTalks.innerText = `My divination has yet to come! * misses (${target[0] + 1}, ${target[1] + 1})*`
+                    }
+                }
+            }
+        })
+    } 
+}
 function shipAt (num) {
     for (let i = 0; i < playerShips.length; i++) {
         for(let j = 0; j < playerShips[i].indexArr.length; j++) {
@@ -335,56 +422,6 @@ Water splash when miss
 fit in with water better 
 
 */
-
-let playerGrid = makeRows(playerDiv, 7, 7);
-
-/*
-//Two
-playerGrid[0].style.background = "url('pics/Two/TwoLeft.png')";
-playerGrid[1].style.background = "url('pics/Two/TwoRight.png')";
-//ThreeSlick
-playerGrid[7].style.background = "url('pics/ThreeSlick/ThreeSlickLeft.png')";
-playerGrid[8].style.background = "url('pics/ThreeSlick/ThreeSlickMiddle.png')";
-playerGrid[9].style.background = "url('pics/ThreeSlick/ThreeSlickRight.png')";
-
-//ThreeWide
-playerGrid[14].style.background = "url('pics/ThreeWide/ThreeWideLeft.png')";
-playerGrid[15].style.background = "url('pics/ThreeWide/ThreeWideMiddle.png')";
-playerGrid[16].style.background = "url('pics/ThreeWide/ThreeWideRight.png')";
-
-//Four
-playerGrid[21].style.background = "url('pics/Four/FourLeft.png')";
-playerGrid[22].style.background = "url('pics/Four/FourMidLeft.png')";
-playerGrid[23].style.background = "url('pics/Four/FourMidRight.png')";
-playerGrid[24].style.background = "url('pics/Four/FourRight.png')";
-
-//Five
-playerGrid[28].style.background = "url('pics/Five/FiveLeft.png')";
-playerGrid[29].style.background = "url('pics/Five/FiveMidLeft.png')";
-playerGrid[30].style.background = "url('pics/Five/FiveMid.png')";
-playerGrid[31].style.background = "url('pics/Five/FiveMidRight.png')";
-playerGrid[32].style.background = "url('pics/Five/FiveRight.png')";
-
-
-
-function setBackground(i, j) {
-    for (let n = i; n <= j; n++){
-        playerGrid[n].style.backgroundSize = "100%"
-        playerGrid[n].style.backgroundRepeat = "no-repeat"
-    }
-}
-setBackground(0, 1);
-setBackground(7,9);
-setBackground(14,16);
-setBackground(21,24);
-setBackground(28,32);
-*/
-
-let computerGrid = makeRows(compDiv, 7, 7);
-
-
-
-let boatPositions = [];
 
 function loadCPUBoard () {
     for (let numBoats = 0; numBoats < 5; numBoats++){
@@ -456,7 +493,6 @@ loadCPUBoard()
 
 
 
-boatArry = createBoatArr(boatPositions)
 
 function createBoatArr(poses) {
     let arr = [];
@@ -477,3 +513,5 @@ function displayDownedBoat(boat) {
 function convertToPos(index) {
     return [Math.floor((index-1)/7), (index-1) % 7]
 }
+
+boatArry = createBoatArr(boatPositions)
