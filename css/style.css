@@ -2,22 +2,32 @@
   --grid-cols: 1;
   --grid-rows: 1;
 }
-h1, h2{
+h1, h2, p{
   display: flex;
   align-items: center;
   justify-content: center;
-
+  height: 5px;
 }
 
-#player,
-#comp {
+p{
+  word-wrap: break-word;
+  max-width: 364px;
+  height: auto;
+}
+
+#player, #comp {
   display: grid;
   /* padding-bottom: 5%; */
-  grid-gap: 0em;
-
-  grid-template-rows: repeat(var(--grid-rows), 1fr);
-  grid-template-columns: repeat(var(--grid-cols), 1fr);
+  gap: 0em;
+  grid-template-rows: repeat(var(--grid-rows), 14.2%);
+  grid-template-columns: repeat(var(--grid-cols), 14.2%);
 }
+
+/* *{
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+} */
 
 .grid-item {
   padding: 1em;
@@ -29,17 +39,21 @@ h1, h2{
   font-weight: bold;
   color: whitesmoke;
   text-shadow: 1px 1px 1px grey;
-  font-size: 25px;
+  font-size: 15px;
   background-repeat: no-repeat;
   background-position-x: -65px;
-  z-index: 0;
   border: 2px solid skyblue;
+  margin: 0%;
+  
 }
 
 #hit:after {
   content: "\274c"; /* Big X */
   color: rgb(255, 0, 0);
-  z-index: 1;
+  position: absolute;
+  top: top + 2;
+  width: 0%;
+  height: 2%;
 }
 
 #miss:after {
@@ -54,11 +68,29 @@ button {
 }
 
 #gamePlay {
-  display: none;
+  display: grid;
+  height: max-content;
+  /* height: fit-content;
+  block-size: fit-content; */
+}
+
+content {
+  display: flex;
+  flex-direction: column;
+  margin: 0 25px ;
+  overflow: visible;
+}
+
+section {
+  left: 3px;
+  display: flex;
+  align-items: flex-end;
+  max-width: 10000px;
+  justify-content: center;
 }
 
 #startScreen {
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
@@ -74,4 +106,13 @@ button {
   display: none;
   flex-direction: column;
   align-items: center;
+}
+
+@media only screen and (max-width: 930px) {
+  section {
+    flex-direction: column;
+  }
+  #gamePlay {
+    justify-items: center;
+  }
 }

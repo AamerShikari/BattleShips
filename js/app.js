@@ -85,7 +85,7 @@ Responsibilities:
 // z - index
 //
 
-let phrase = document.createElement('h2');
+let phrase = document.createElement('p');
 let setOfPhrases = ["Select the start index of your ", "Select the end index of your ", "Your all set! Let the battle begin!", "Note: Boat length must match the description, no overlapping, and no diagonals allowed! Try again by entering a start index for a "]
 let setOfBoats = ["2-length boat", "3-length boat", "2nd 3-length boat", "4-length boat", "5-length boat"];
 let twoBoatHor = ["url('pics/Two/Hor/TwoLeft.png')", "url('pics/Two/Hor/TwoRight.png')"];
@@ -107,7 +107,7 @@ let phraseCount = 0;
 let boatCount = 0;
 phrase.innerText = setOfPhrases[0] + setOfBoats[0];
 document.querySelector("#playerBoard").after(phrase);
-let enemyTalks = document.createElement("h2");
+let enemyTalks = document.createElement("p");
 document.querySelector("#computerBoard").after(enemyTalks);
 let x;
 let y;
@@ -228,7 +228,7 @@ function placeBoat(grid, boat, type, isSecond, targetVal) {
     }
     temp.forEach((elem) => {
         grid[targetVal - j].style.background = elem
-        grid[targetVal - j].style.backgroundSize = "100%"
+        grid[targetVal - j].style.backgroundSize = "75%"
         grid[targetVal - j].style.backgroundRepeat = "no-repeat"
         j -= diff
     })
