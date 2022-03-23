@@ -53,6 +53,7 @@ function startNewGame () {
     loadCPUBoard()
     boatArry = createBoatArr(boatPositions)
     enemyTalks.innerText = ""
+    isPlayerShipsReady = false;
 }
 
 function removeAllChildNodes(div) {
@@ -113,8 +114,14 @@ let x;
 let y;
 let boatType = [1, 2, 2, 3, 4];
 let playerShips;
+let isPlayerShipsReady = false
 let playerBoardInitialized = false;
 let hunted;
+let hitExplosion = document.createElement("audio");
+hitExplosion.src = 'sound/explosion.wav';
+let missSound = document.createElement("audio");
+missSound.src = 'sound/miss.wav';
+
 
 let seersEye = false;
 
@@ -169,6 +176,7 @@ playerDiv.addEventListener('click', function(e) {
     if (boatCount === 5) {
         phrase.innerText = setOfPhrases[phraseCount]
         playerShips = createBoatArr(playerBoats)
+        isPlayerShipsReady = true;
         playerBoardInitialized = true
     } else {
         phrase.innerText = setOfPhrases[phraseCount] + setOfBoats[boatCount]
@@ -273,9 +281,15 @@ compDiv.addEventListener('click', function(e) {
                     if (isAHit(e.target.innerText, boatArry, true)){
                         elem.id = 'hit'
                         phrase.innerText = `Nice! (${target[0] + 1}, ${target[1] + 1}) was a hit!`
+                        hitExplosion.pause();
+                        hitExplosion.currentTime = 0;
+                        hitExplosion.play();
                     } else {
                         elem.id = 'miss'
                         phrase.innerText = `Oh no! (${target[0] + 1}, ${target[1] + 1}) was a miss! We'll get em next time!`
+                        missSound.pause();
+                        missSound.currentTime = 0;
+                        missSound.play();
                     }
                 }
             })
@@ -298,12 +312,15 @@ compDiv.addEventListener('click', function(e) {
 })
 
 function isGameOver(ships) {
-    for (let i = 0; i < ships.length; i++){
-        if(!ships[i].isDown()){
-            return false;
+    if (isPlayerShipsReady){
+        for (let i = 0; i < ships.length; i++){
+            if(!ships[i].isDown()){
+                return false;
+            }
         }
+        return true;
     }
-    return true;
+
 }
 
 
