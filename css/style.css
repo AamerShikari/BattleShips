@@ -2,6 +2,12 @@
   --grid-cols: 1;
   --grid-rows: 1;
 }
+h1, h2{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
 
 #player,
 #comp {
@@ -17,20 +23,30 @@
   padding: 1em;
   border: 1px solid #000000;
   text-align: center;
-  background-image: url("../pics/ocean.jpeg"); 
-
+  background-image: url("../pics/ocean.jpeg");
+  padding: 15px;
+  font-family: verdana;
+  font-weight: bold;
+  color: whitesmoke;
+  text-shadow: 1px 1px 1px grey;
+  font-size: 25px;
+  background-repeat: no-repeat;
+  background-position-x: -65px;
+  z-index: 0;
+  border: 2px solid skyblue;
 }
 
-#hit:after{
+#hit:after {
   content: "\274c"; /* Big X */
   color: rgb(255, 0, 0);
+  z-index: 1;
 }
 
 #miss:after {
   content: "\2B55"; /* Big Circle*/
   color: rgb(255, 0, 0);
+  position: absolute;
 }
-
 
 button {
   color: red;
@@ -54,3 +70,8 @@ button {
   align-items: center;
 }
 
+#gameOver {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+}

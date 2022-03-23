@@ -10,6 +10,11 @@ difficulties.addEventListener('click', (e) => {
     document.querySelector("#difficultySelection").style.display = "none"
     document.querySelector("#gamePlay").style.display = "grid"
 })
+document.querySelector("#playAgain").addEventListener('click', function(e) {
+    document.querySelector('#gameOver').style.display = "none"
+    document.querySelector("#startScreen").style.display = "flex"
+    startNewGame()
+})
 
 const playerDiv = document.getElementById("player");
 const compDiv = document.getElementById("comp");
@@ -31,7 +36,30 @@ function makeRows(container, rows, cols) {
 
 let playerGrid = makeRows(playerDiv, 7, 7);
 let computerGrid = makeRows(compDiv, 7, 7);
+function startNewGame () {
+    removeAllChildNodes(playerDiv)
+    removeAllChildNodes(compDiv)
+    playerGrid = makeRows(playerDiv, 7,7)
+    computerGrid = makeRows(compDiv, 7, 7)
+    recentHit = false;
+    hitArr = []
+    boatPositions = []
+    playerShips = []
+    playerBoats = []
+    phraseCount = 0
+    boatCount = 0
+    phrase.innerText = setOfPhrases[0] + setOfBoats[0]
+    seersEye = false;
+    loadCPUBoard()
+    boatArry = createBoatArr(boatPositions)
+    enemyTalks.innerText = ""
+}
 
+function removeAllChildNodes(div) {
+    while (div.firstChild) {
+        div.removeChild(div.firstChild)
+    }
+}
 //Event Listener Functions 
 /*
 Responsibilities: 
@@ -41,6 +69,21 @@ Responsibilities:
 - Must run an isGameOver function at the end of every round 
 - 
 */
+
+// playerDiv.addEventListener('mouseover', function(e) {
+//     console.dir(e.target)
+//     setInterval(function(){
+//         $('button').animate(
+//           {'background-position-x':'300px'},
+//           2000,
+//           function(){
+//             $('button').css('background-position-x','-65px')
+        
+//           })}, 1800)
+// })
+
+// z - index
+//
 
 let phrase = document.createElement('h2');
 let setOfPhrases = ["Select the start index of your ", "Select the end index of your ", "Your all set! Let the battle begin!", "Note: Boat length must match the description, no overlapping, and no diagonals allowed! Try again by entering a start index for a "]
@@ -56,19 +99,19 @@ let fourVert = ["url('pics/Four/Vert/FourLeft.png')", "url('pics/Four/Vert/FourM
 let fiveHor = ["url('pics/Five/Hor/FiveLeft.png')", "url('pics/Five/Hor/FiveMidLeft.png')", "url('pics/Five/Hor/FiveMid.png')", "url('pics/Five/Hor/FiveMidRight.png')", "url('pics/Five/Hor/FiveRight.png')"]
 let fiveVert = ["url('pics/Five/Vert/FiveLeft.png')", "url('pics/Five/Vert/FiveMidLeft.png')", "url('pics/Five/Vert/FiveMid.png')", "url('pics/Five/Vert/FiveMidRight.png')", "url('pics/Five/Vert/FiveRight.png')"]
 let imgArr = [twoBoatHor, twoBoatVert, threeSlickHor, threeSlickVert, threeWideHor, threeWideVert, fourHor, fourVert, fiveHor, fiveVert]
-let hitArr = []
-let recentHit = false
-let playerBoats = []
+let hitArr = [];
+let recentHit = false;
+let playerBoats = [];
 let boatPositions = [];
-let phraseCount = 0
-let boatCount = 0
-phrase.innerText = setOfPhrases[0] + setOfBoats[0]
-document.querySelector("#playerBoard").after(phrase)
-let enemyTalks = document.createElement("h2")
-document.querySelector("#computerBoard").after(enemyTalks)
+let phraseCount = 0;
+let boatCount = 0;
+phrase.innerText = setOfPhrases[0] + setOfBoats[0];
+document.querySelector("#playerBoard").after(phrase);
+let enemyTalks = document.createElement("h2");
+document.querySelector("#computerBoard").after(enemyTalks);
 let x;
 let y;
-let boatType = [1, 2, 2, 3, 4]
+let boatType = [1, 2, 2, 3, 4];
 let playerShips;
 let playerBoardInitialized = false;
 let hunted;
@@ -101,8 +144,8 @@ class ship {
         }
     }
 }
+
 playerDiv.addEventListener('click', function(e) {
-    
     if (boatCount === 5) {
         //Come back to this whent he game has more functionality
     }
@@ -174,8 +217,8 @@ function placeBoat(grid, boat, type, isSecond, targetVal) {
         }
     }
     let temp = imgArr[index]
-    let j;
-    let diff;
+    let j = 0;
+    let diff = 0;
     if (boat[1] - boat[0] === 0){
         j = 1
         diff = 1
@@ -237,13 +280,15 @@ compDiv.addEventListener('click', function(e) {
                 }
             })
             if (isGameOver(boatArry)){
-                phrase.innerText = "GAME OVER, YOU WON!"
-                enemyTalks = "I'LL HAVE MY VENGANCE ONE DAY..."
+                displayGameOver("victory")
+                // phrase.innerText = "GAME OVER, YOU WON!"
+                // enemyTalks.innerText = "I'LL HAVE MY VENGANCE ONE DAY..."
             } else {
                 runComputerTurn()
                 if (isGameOver(playerShips)){
-                    phrase.innerText = "GAME OVER, ENEMY WON"
-                    enemyTalks = "YOU THOUGHT YOU COULD DEFEAT ME?!?! MUAHAHAH!"
+                    displayGameOver("defeat")
+                    // phrase.innerText = "GAME OVER, ENEMY WON"
+                    // enemyTalks.innerText = "YOU THOUGHT YOU COULD DEFEAT ME?!?! MUAHAHAH!"
                 }
             } 
         } else {
@@ -251,8 +296,6 @@ compDiv.addEventListener('click', function(e) {
         }
     }
 })
-
-
 
 function isGameOver(ships) {
     for (let i = 0; i < ships.length; i++){
@@ -361,6 +404,12 @@ function runComputerTurn() {
                         seersEye = Math.floor(Math.random() * 2) === 0
                         if (seersEye) {
                             enemyTalks.innerText = "A lucky guess into a divination! You doom is assured!"
+                            for (let i = 0; i < playerShips.length; i++){
+                                if (!playerShips[i].isDown()){
+                                    hunted = playerShips[i]
+                                    break;
+                                }
+                            }
                         } else {
                             enemyTalks.innerText = "A lucky guess, my divination will surely be your demise!"
                         }
@@ -385,6 +434,7 @@ function runComputerTurn() {
         })
     } 
 }
+
 function shipAt (num) {
     for (let i = 0; i < playerShips.length; i++) {
         for(let j = 0; j < playerShips[i].indexArr.length; j++) {
@@ -411,17 +461,6 @@ function isAHit(num, boats, isComp) {
     }
     return false
 }
-/*
-To Do List: 
-- Computer AI 
-- End Screen 
-- Restart 
-Animating the water 
-Exploding effect 
-Water splash when miss 
-fit in with water better 
-
-*/
 
 function loadCPUBoard () {
     for (let numBoats = 0; numBoats < 5; numBoats++){
@@ -487,13 +526,6 @@ function isntTaken (pos, x1, x2, y1, y2, hor){
 }
 loadCPUBoard()
 
-
-
- 
-
-
-
-
 function createBoatArr(poses) {
     let arr = [];
     let counter = 0
@@ -504,8 +536,6 @@ function createBoatArr(poses) {
     return arr;
 }
 
-
-
 function displayDownedBoat(boat) {
     placeBoat(computerGrid, [boat.indexArr[0].x, boat.indexArr[boat.indexArr.length - 1].x, boat.indexArr[0].y, boat.indexArr[boat.indexArr.length-1].y, boat.indexArr[boat.indexArr.length - 1].x - boat.indexArr[0].x === 0], boat.shipType - 1, false, convertToVal([boat.indexArr[0].x, boat.indexArr[0].y]))
 }
@@ -515,3 +545,35 @@ function convertToPos(index) {
 }
 
 boatArry = createBoatArr(boatPositions)
+
+function displayGameOver(res) {
+    document.querySelector("#gamePlay").style.display = "none"
+    document.querySelector("#gameOver").style.display = "flex"
+    let result = document.createElement("h1")
+    let taunt = document.createElement("h2")
+    document.querySelector("#gameOver").insertBefore(result, document.querySelector("#playAgain"))
+    result.after(taunt)
+    if (res === "victory"){
+        result.innerText = "Game Over! YOU WON!"
+        if (compLevel === "Infant Splamming Keyboard"){
+            taunt.innerText = "Infant: *Cries* AGAIN AGAIN *Cries*"
+        } else if (compLevel === "Kevin the Semi Calculated Sniper"){
+            taunt.innerText = "Kevin the Sniper: You got me this time, BUT NOT THE NEXT!"
+        } else if (compLevel === "The Binary Bot"){
+            taunt.innerText = "The Binary Bot: *beep boop* A miscalculation in the matrix *beep boop*"
+        } else if (compLevel === "The Seer (Almost Impossible)"){
+            taunt.innerText = "The Seer: This was unforseen!"
+        }
+    } else {
+        result.innerText = "Game Over! You Lose!"
+        if (compLevel === "Infant Splamming Keyboard"){
+            taunt.innerText = "Infant: *Laughter* AGAIN AGAIN *laughter*"
+        } else if (compLevel === "Kevin the Semi Calculated Sniper"){
+            taunt.innerText = "Kevin the Sniper: Calculated!! Ah-hah-ha!"
+        } else if (compLevel === "The Binary Bot"){
+            taunt.innerText = "The Binary Bot: *beep boop* My computations are never wrong *beep boop*"
+        } else if (compLevel === "The Seer (Almost Impossible)"){
+            taunt.innerText = "The Seer: My predictions have never been wrong!"
+        }
+    }
+}
