@@ -22,13 +22,13 @@ Start Screen
 ![Start](https://github.com/AamerShikari/BattleShips/tree/main/pics/readMePics/Start.png)
 
 Difficulty Selection 
-![Alt text](/pics/readMePics/Difficulty.png?raw=true "Difficulty Selection")
+![Difficulty Selection](https://github.com/AamerShikari/BattleShips/tree/main/pics/readMePics/Difficulty.png)
 
 Gameplay!
-![Alt text](/pics/readMePics/GamePlay.png?raw=true "Gameplay")
+![GamePlay](https://github.com/AamerShikari/BattleShips/tree/main/pics/readMePics/GamePlay.png)
 
 End Game Screen
-![Alt text](/pics/readMePics/EndGame.png?raw=true "Game Over")
+![GAME OVER](https://github.com/AamerShikari/BattleShips/tree/main/pics/readMePics/EndGame.png)
 
 Technology Used: 
 - JavaScript
