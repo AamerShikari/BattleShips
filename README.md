@@ -40,7 +40,10 @@ Gameplay!<br>
 End Game Screen <br>
 ![GAME OVER](pics/readMePics/EndGame.png)
 
-Technology Used: 
-- JavaScript
-- HTML
-- CSS
+
+<h2>Technology Used: </h2>
+<ul>
+     <li>- JavaScript</li>
+     <li>- HTML</li>
+     <li>- CSS</li>
+<ul>
