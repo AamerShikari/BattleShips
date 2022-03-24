@@ -1,3 +1,7 @@
+/* 
+Three Functions that toggle the display of certain divs information 
+Responsible for the transitions from homepage to gameplay to game over 
+*/
 let startButton = document.querySelector("#startGame")
 startButton.addEventListener('click', function(e) {
     document.querySelector("#difficultySelection").style.display = "flex"
@@ -16,6 +20,12 @@ document.querySelector("#playAgain").addEventListener('click', function(e) {
     startNewGame()
 })
 
+/*
+Create the board div elements filled with buttons to be used later 
+Board size can be changed with the row and cols parameters 
+(Note if such changes are made, modifications to the css #player and
+    #comp styles must be made to accomodate for the percentage variations)
+*/
 const playerDiv = document.getElementById("player");
 const compDiv = document.getElementById("comp");
 
@@ -36,6 +46,10 @@ function makeRows(container, rows, cols) {
 
 let playerGrid = makeRows(playerDiv, 7, 7);
 let computerGrid = makeRows(compDiv, 7, 7);
+
+/*
+Resets the game by reseting all the values of the previous game
+*/
 function startNewGame () {
     removeAllChildNodes(playerDiv)
     removeAllChildNodes(compDiv)
@@ -55,37 +69,14 @@ function startNewGame () {
     enemyTalks.innerText = ""
     isPlayerShipsReady = false;
 }
-
+//Helper function to remove all child elements of the grid
 function removeAllChildNodes(div) {
     while (div.firstChild) {
         div.removeChild(div.firstChild)
     }
 }
-//Event Listener Functions 
-/*
-Responsibilities: 
-- Handle when game starts and player placement is in effect 
-- Handle when the player selects an enemy location to fire on 
-- Passes turn to the computer 
-- Must run an isGameOver function at the end of every round 
-- 
-*/
 
-// playerDiv.addEventListener('mouseover', function(e) {
-//     console.dir(e.target)
-//     setInterval(function(){
-//         $('button').animate(
-//           {'background-position-x':'300px'},
-//           2000,
-//           function(){
-//             $('button').css('background-position-x','-65px')
-        
-//           })}, 1800)
-// })
-
-// z - index
 //
-
 let phrase = document.createElement('p');
 let setOfPhrases = ["Select the start index of your ", "Select the end index of your ", "Your all set! Let the battle begin!", "Note: Boat length must match the description, no overlapping, and no diagonals allowed! Try again by entering a start index for a "]
 let setOfBoats = ["2-length boat", "3-length boat", "2nd 3-length boat", "4-length boat", "5-length boat"];
@@ -116,7 +107,11 @@ let boatType = [1, 2, 2, 3, 4];
 let playerShips;
 let isPlayerShipsReady = false
 let playerBoardInitialized = false;
+
+//Element to track target ships for AI 
 let hunted;
+
+//Sound Element Creation
 let hitExplosion = document.createElement("audio");
 hitExplosion.src = 'sound/explosion.wav';
 let missSound = document.createElement("audio");
@@ -387,8 +382,6 @@ function runComputerTurn() {
                 }
             }
         })
-    } else if (compLevel === "The Binary Bot"){
-
     } else if (compLevel === "The Seer (Almost Impossible)") {
         if (!seersEye){
             while (inArry){
@@ -576,9 +569,7 @@ function displayGameOver(res) {
             taunt.innerText = "Infant: *Cries* AGAIN AGAIN *Cries*"
         } else if (compLevel === "Kevin the Semi Calculated Sniper"){
             taunt.innerText = "Kevin the Sniper: You got me this time, BUT NOT THE NEXT!"
-        } else if (compLevel === "The Binary Bot"){
-            taunt.innerText = "The Binary Bot: *beep boop* A miscalculation in the matrix *beep boop*"
-        } else if (compLevel === "The Seer (Almost Impossible)"){
+        }  else if (compLevel === "The Seer (Almost Impossible)"){
             taunt.innerText = "The Seer: This was unforseen!"
         }
     } else {
@@ -587,8 +578,6 @@ function displayGameOver(res) {
             taunt.innerText = "Infant: *Laughter* AGAIN AGAIN *laughter*"
         } else if (compLevel === "Kevin the Semi Calculated Sniper"){
             taunt.innerText = "Kevin the Sniper: Calculated!! Ah-hah-ha!"
-        } else if (compLevel === "The Binary Bot"){
-            taunt.innerText = "The Binary Bot: *beep boop* My computations are never wrong *beep boop*"
         } else if (compLevel === "The Seer (Almost Impossible)"){
             taunt.innerText = "The Seer: My predictions have never been wrong!"
         }
