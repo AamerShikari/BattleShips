@@ -68,7 +68,7 @@ button {
 }
 
 #gamePlay {
-  display: grid;
+  display: none;
   height: max-content;
   /* height: fit-content;
   block-size: fit-content; */
@@ -90,7 +90,7 @@ section {
 }
 
 #startScreen {
-  display: none;
+  display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
