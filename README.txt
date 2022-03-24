@@ -24,7 +24,7 @@ Start Screen
      style="float: left; margin-right: 10px;" />
 
 Difficulty Selection 
-![Difficulty Selection](https://github.com/AamerShikari/BattleShips/tree/main/pics/readMePics/Difficulty.png)
+![Difficulty Selection][https://github.com/AamerShikari/BattleShips/tree/main/pics/readMePics/Difficulty.png]
 
 Gameplay!
 ![GamePlay](https://github.com/AamerShikari/BattleShips/tree/main/pics/readMePics/GamePlay.png)
