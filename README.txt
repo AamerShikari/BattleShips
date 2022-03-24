@@ -19,7 +19,7 @@ Infinite gameplay!
 Here's what it looks like! 
 
 Start Screen
-![Alt text](/pics/readMePics/Start.png?raw=true "Start Game")
+![Alt text](https://github.com/AamerShikari/BattleShips/tree/main/pics/readMePics/Start.png?raw=true "Start Game")
 
 Difficulty Selection 
 ![Alt text](/pics/readMePics/Difficulty.png?raw=true "Difficulty Selection")
