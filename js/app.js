@@ -76,10 +76,22 @@ function removeAllChildNodes(div) {
     }
 }
 
-//
+//Player instructive element
 let phrase = document.createElement('p');
 let setOfPhrases = ["Select the start index of your ", "Select the end index of your ", "Your all set! Let the battle begin!", "Note: Boat length must match the description, no overlapping, and no diagonals allowed! Try again by entering a start index for a "]
+//Helper var to keep track of current phrase
+let phraseCount = 0;
+
+
+//array of different boat Types
 let setOfBoats = ["2-length boat", "3-length boat", "2nd 3-length boat", "4-length boat", "5-length boat"];
+//Helper var to keep track of current boat being placed
+let boatCount = 0;
+
+//set initial prompt for player
+phrase.innerText = setOfPhrases[0] + setOfBoats[0];
+
+//Arrays filled with all the different links to the image files of the boats 
 let twoBoatHor = ["url('pics/Two/Hor/TwoLeft.png')", "url('pics/Two/Hor/TwoRight.png')"];
 let twoBoatVert = ["url('pics/Two/Vert/TwoLeft.png')", "url('pics/Two/Vert/TwoRight.png')"]
 let threeSlickHor = ["url('pics/ThreeSlick/Hor/ThreeSlickLeft.png')", "url('pics/ThreeSlick/Hor/ThreeSlickMiddle.png')", "url('pics/ThreeSlick/Hor/ThreeSlickRight.png')"]
@@ -91,20 +103,35 @@ let fourVert = ["url('pics/Four/Vert/FourLeft.png')", "url('pics/Four/Vert/FourM
 let fiveHor = ["url('pics/Five/Hor/FiveLeft.png')", "url('pics/Five/Hor/FiveMidLeft.png')", "url('pics/Five/Hor/FiveMid.png')", "url('pics/Five/Hor/FiveMidRight.png')", "url('pics/Five/Hor/FiveRight.png')"]
 let fiveVert = ["url('pics/Five/Vert/FiveLeft.png')", "url('pics/Five/Vert/FiveMidLeft.png')", "url('pics/Five/Vert/FiveMid.png')", "url('pics/Five/Vert/FiveMidRight.png')", "url('pics/Five/Vert/FiveRight.png')"]
 let imgArr = [twoBoatHor, twoBoatVert, threeSlickHor, threeSlickVert, threeWideHor, threeWideVert, fourHor, fourVert, fiveHor, fiveVert]
+
+//array to monitor the indices already visited (used for AI)
 let hitArr = [];
+
+//determines AI path of action
 let recentHit = false;
+
+//array of positions of boats for player
 let playerBoats = [];
+
+//array of positions of boats for computer
 let boatPositions = [];
-let phraseCount = 0;
-let boatCount = 0;
-phrase.innerText = setOfPhrases[0] + setOfBoats[0];
+
+
 document.querySelector("#playerBoard").after(phrase);
 let enemyTalks = document.createElement("p");
 document.querySelector("#computerBoard").after(enemyTalks);
+
+//corrdinates for tracking the location of boats being place (for player)
 let x;
 let y;
+
+//array to help track what type of boat is being accessed/initialized/placed
 let boatType = [1, 2, 2, 3, 4];
+
+//array of Player's ship objects 
 let playerShips;
+
+//helper vars to determine if the ships are finished being placed
 let isPlayerShipsReady = false
 let playerBoardInitialized = false;
 
@@ -117,9 +144,18 @@ hitExplosion.src = 'sound/explosion.wav';
 let missSound = document.createElement("audio");
 missSound.src = 'sound/miss.wav';
 
-
+//helper var for determining hardest difficulty AI's course of action 
 let seersEye = false;
 
+/*
+Class type for Ship objects 
+Includes: 
+- Constructor(shipType, x1,y1,x2,y2) where both coordinate positions detail the start and end indexes of 
+    the ship, respectively
+- ShipType: what kind of ship the obj is 
+- indexArr: an array detailing the x,y positions of a ship
+- isDown(): a function to determine if all indices of the ship have been hit
+*/
 class ship {
     constructor(shipType, x1, y1, x2, y2){
         this.shipType = shipType;
@@ -147,6 +183,10 @@ class ship {
     }
 }
 
+/*
+Handler for when an element within the Player board is clicked
+Primary purpose is for the creation of the players ships
+*/
 playerDiv.addEventListener('click', function(e) {
     if (boatCount === 5) {
         //Come back to this whent he game has more functionality
@@ -179,11 +219,15 @@ playerDiv.addEventListener('click', function(e) {
     
 })
 
+
+//helper function for converting coordinates to values 
 function convertToVal (pos) {
     let x = pos[0]
     let y = pos[1]
     return y + (x * 7) + 1
 }
+
+//Function to set the grpahics for an individual boat
 function placeBoat(grid, boat, type, isSecond, targetVal) {
     let index;
     if (type === 1) {
@@ -237,6 +281,7 @@ function placeBoat(grid, boat, type, isSecond, targetVal) {
     })
 }
 
+//Helper function to check if a boats location doesn't intersect another boats index
 function boatIsValid (x, y, boatArr, len) {
     let arrOfPos = []
     let pos1 = convertToPos(x)
@@ -264,6 +309,8 @@ function boatIsValid (x, y, boatArr, len) {
     }
 }
 
+//Handler for when a player selects an element/index on the opponents board 
+//Primary purpose is to determine if the index is a hit, miss, or invalid.
 compDiv.addEventListener('click', function(e) {
     let target;
     if (isGameOver(boatArry)) {
@@ -306,6 +353,7 @@ compDiv.addEventListener('click', function(e) {
     }
 })
 
+//Checks whether a given object array of ships have all been sunk
 function isGameOver(ships) {
     if (isPlayerShipsReady){
         for (let i = 0; i < ships.length; i++){
@@ -318,7 +366,7 @@ function isGameOver(ships) {
 
 }
 
-
+//Function that runs the correct AI turn in response to a Player's turn
 function runComputerTurn() {
     let inArry = true
     let randIndex;
@@ -445,6 +493,7 @@ function runComputerTurn() {
     } 
 }
 
+//Finds and returns a ship object at a given index 
 function shipAt (num) {
     for (let i = 0; i < playerShips.length; i++) {
         for(let j = 0; j < playerShips[i].indexArr.length; j++) {
@@ -456,6 +505,8 @@ function shipAt (num) {
     }
 }
 
+//Function to check if a value/index is a boat on a given board. If so, the index on the corresponding
+//ship object is modified to be hit 
 function isAHit(num, boats, isComp) {
     let location = convertToPos(num)
     for (let i = 0; i < boats.length; i++) {
@@ -472,6 +523,7 @@ function isAHit(num, boats, isComp) {
     return false
 }
 
+//Sets up the random locations of the enemy ships array
 function loadCPUBoard () {
     for (let numBoats = 0; numBoats < 5; numBoats++){
         let isHorizontal = Math.floor(Math.random() * 2) % 2 !== 0
@@ -511,6 +563,7 @@ function loadCPUBoard () {
     }
 }
 
+//Function to check if a boats position is valid on the board
 function isntTaken (pos, x1, x2, y1, y2, hor){
     let counter = 0;
     if (pos.length === 0){
@@ -536,6 +589,7 @@ function isntTaken (pos, x1, x2, y1, y2, hor){
 }
 loadCPUBoard()
 
+//Helper function to create ships coresponding to a positions array provided
 function createBoatArr(poses) {
     let arr = [];
     let counter = 0
@@ -546,16 +600,20 @@ function createBoatArr(poses) {
     return arr;
 }
 
+//Displays when a boat is sunk 
 function displayDownedBoat(boat) {
     placeBoat(computerGrid, [boat.indexArr[0].x, boat.indexArr[boat.indexArr.length - 1].x, boat.indexArr[0].y, boat.indexArr[boat.indexArr.length-1].y, boat.indexArr[boat.indexArr.length - 1].x - boat.indexArr[0].x === 0], boat.shipType - 1, false, convertToVal([boat.indexArr[0].x, boat.indexArr[0].y]))
 }
 
+//Helper function for converting values to coordinates
 function convertToPos(index) {
     return [Math.floor((index-1)/7), (index-1) % 7]
 }
 
+//Creates the enemy ships array 
 boatArry = createBoatArr(boatPositions)
 
+//Function to display the endgame screen, concats any previous endgames to mimic a scoreboard of sorts
 function displayGameOver(res) {
     document.querySelector("#gamePlay").style.display = "none"
     document.querySelector("#gameOver").style.display = "flex"
