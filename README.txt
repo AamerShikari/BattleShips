@@ -15,3 +15,22 @@ AI opponents with varying difficulties
 Customization of player board 
 Sound effects on collision
 Infinite gameplay!
+
+Here's what it looks like! 
+
+Start Screen
+![Alt text](/pics/readMePics/Start.png?raw=true "Start Game")
+
+Difficulty Selection 
+![Alt text](/pics/readMePics/Difficulty.png?raw=true "Difficulty Selection")
+
+Gameplay!
+![Alt text](/pics/readMePics/GamePlay.png?raw=true "Gameplay")
+
+End Game Screen
+![Alt text](/pics/readMePics/EndGame.png?raw=true "Game Over")
+
+Technology Used: 
+- JavaScript
+- HTML
+- CSS
