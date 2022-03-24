@@ -24,10 +24,10 @@ Start Screen
      style="float: left; margin-right: 10px;" />
 
 Difficulty Selection 
-![Difficulty Selection][https://github.com/AamerShikari/BattleShips/tree/main/pics/readMePics/Difficulty.png]
+![Difficulty Selection](https://github.com/AamerShikari/BattleShips/tree/main/pics/readMePics/Difficulty.png?raw=true)
 
 Gameplay!
-![GamePlay](https://github.com/AamerShikari/BattleShips/tree/main/pics/readMePics/GamePlay.png)
+![GamePlay](https://github.com/AamerShikari/BattleShips/tree/main/pics/readMePics/GamePlay.png?raw=true)
 
 End Game Screen
 ![GAME OVER](https://github.com/AamerShikari/BattleShips/tree/main/pics/readMePics/EndGame.png)
