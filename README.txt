@@ -15,3 +15,24 @@ AI opponents with varying difficulties
 Customization of player board 
 Sound effects on collision
 Infinite gameplay!
+
+Here's what it looks like! 
+
+Start Screen
+<img src="https://github.com/AamerShikari/BattleShips/tree/main/pics/readMePics/Start.png"
+     alt="Start Screen"
+     style="float: left; margin-right: 10px;" />
+
+Difficulty Selection 
+![Difficulty Selection][https://github.com/AamerShikari/BattleShips/tree/main/pics/readMePics/Difficulty.png]
+
+Gameplay!
+![GamePlay](https://github.com/AamerShikari/BattleShips/tree/main/pics/readMePics/GamePlay.png)
+
+End Game Screen
+![GAME OVER](https://github.com/AamerShikari/BattleShips/tree/main/pics/readMePics/EndGame.png)
+
+Technology Used: 
+- JavaScript
+- HTML
+- CSS
