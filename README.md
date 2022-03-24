@@ -1,5 +1,7 @@
+<h1>
 Recreation of BattleShips v1
 by Aamer Shikari
+</h1>
 
 The premise of the game is to eliminate all enemy ships before yours
 are taken down. All ship locations for the enemy are hidden and randomly 
