@@ -43,7 +43,7 @@ End Game Screen <br>
 
 <h2>Technology Used: </h2>
 <ul>
-     <li>- JavaScript</li>
-     <li>- HTML</li>
-     <li>- CSS</li>
+     <li>JavaScript</li>
+     <li>HTML</li>
+     <li>CSS</li>
 <ul>
