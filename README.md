@@ -18,19 +18,19 @@ Infinite gameplay!
 
 Here's what it looks like! 
 
-Start Screen
-<img src="https://github.com/AamerShikari/BattleShips/tree/main/pics/readMePics/Start.png"
+Start Screen<br>
+<img src="pics/readMePics/Start.png"
      alt="Start Screen"
      style="float: left; margin-right: 10px;" />
 
-Difficulty Selection 
+Difficulty Selection <br>
 ![Difficulty Selection](pics/readMePics/Difficulty.png?raw=true)
 
-Gameplay!
-![GamePlay](https://github.com/AamerShikari/BattleShips/tree/main/pics/readMePics/GamePlay.png?raw=true)
+Gameplay!<br>
+![GamePlay](pics/readMePics/GamePlay.png?raw=true)
 
-End Game Screen
-![GAME OVER](https://github.com/AamerShikari/BattleShips/tree/main/pics/readMePics/EndGame.png)
+End Game Screen <br>
+![GAME OVER](pics/readMePics/EndGame.png)
 
 Technology Used: 
 - JavaScript
