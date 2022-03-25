@@ -50,4 +50,4 @@ End Game Screen <br>
 <ul>
      
 <h2> Here's the Game! </h2>
-<a href="https://aamershikari.github.io/BattleShips/">BattleShips</a>
+<a href="https://aamershikari.github.io/BattleShips/" target="_blank">BattleShips</a>
