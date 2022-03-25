@@ -1,5 +1,6 @@
 <h1>
 Recreation of BattleShips v1
+     <br>
 by Aamer Shikari
 </h1>
 
